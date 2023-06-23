@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      - REACT_APP_HOST_SERVER=http://localhost:8888
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    restart: always
+    ports:
+      - '3000:3000'
+
