@@ -15,4 +15,17 @@ services:
     restart: always
     ports:
       - '3000:3000'
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    restart: always
+    ports:
+      - '8888:8000'
 

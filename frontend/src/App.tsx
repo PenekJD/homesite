@@ -1,30 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Card from './components/Card';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import IUser from './interfaces/IUser';
+import UserContext from './context/UserContext';
+import CUseEffect from './components/CUseEffect';
+import CUseCallback from './components/CUseCallback';
+
+
 
 function App() {
 
-  let TestEnvVal: string = process.env.REACT_APP_HOST_SERVER+'';
+  let backendUrl: string = process.env.REACT_APP_HOST_SERVER+'';
+  let [serverResp, setServerResp] = useState([]);
+  //THEME params
+  let [theme, setTheme] = useState('light');
+  //USER params
+  const [user, setUser]: 
+  [IUser, React.Dispatch<React.SetStateAction<IUser>>]
+  = useState({fullname: "Guest", lastname:""});
+
+  //for UseEffect COmponent
+  let [activeUE, setActiveUE]:
+  [boolean, React.Dispatch<React.SetStateAction<boolean>>] 
+  = useState(true);
+
+
+  //Connect to backend
+  function loadInfo(): void {
+    fetch(backendUrl)
+    .then( resp => resp.json() )
+    .then( data => { setServerResp(data) } )
+  }
+
+
+  function changeTheme(sTheme:string): void {
+    localStorage.setItem('theme', sTheme);
+    setTheme(sTheme);
+  }
+
+
+  useEffect( () => {
+    let checkSavedTheme: string = localStorage.getItem('theme')+'';
+    if ( checkSavedTheme !== 'null' ) {
+      setTheme(checkSavedTheme);
+    }
+  }, [] );
+
+  
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <hr/>
-        <div>Test ENV val:</div><div>{TestEnvVal}</div>
-      </header>
-    </div>
+    <UserContext.Provider value={ { user, setUser } }>
+      <div className={ 'App '+' '+theme }>
+        <ThemeSwitcher theme={theme} setTheme={changeTheme}></ThemeSwitcher>
+        <div>Test ENV val:</div>
+        <div>{backendUrl}</div>
+        <br />
+        <br />
+        <Card val={"Hello"} dec={ JSON.stringify(serverResp) } func={ loadInfo }></Card>
+        <br />
+        { activeUE && (<CUseEffect setOff={setActiveUE}></CUseEffect>) }
+        { !activeUE && ( <button onClick={ ()=>{ setActiveUE(true) } }>Mount UseEffect Component</button> ) }
+        <br />
+        <CUseCallback></CUseCallback>
+      </div>
+    </UserContext.Provider>
   );
 }
 
