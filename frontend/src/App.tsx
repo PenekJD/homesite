@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import './App.css';
 import Card from './components/Card';
-import ThemeSwitcher from './components/ThemeSwitcher';
 import IUser from './interfaces/IUser';
 import UserContext from './context/UserContext';
 import CUseEffect from './components/CUseEffect';
 import CUseCallback from './components/CUseCallback';
+import Header from './components/Header';
+import Options from './components/pages/Options';
+import Option from './components/pages/Option';
+import Login from './components/pages/Login';
 
 
 
@@ -52,17 +58,33 @@ function App() {
   return (
     <UserContext.Provider value={ { user, setUser } }>
       <div className={ 'App '+' '+theme }>
-        <ThemeSwitcher theme={theme} setTheme={changeTheme}></ThemeSwitcher>
-        <div>Test ENV val:</div>
-        <div>{backendUrl}</div>
-        <br />
-        <br />
-        <Card val={"Hello"} dec={ JSON.stringify(serverResp) } func={ loadInfo }></Card>
-        <br />
-        { activeUE && (<CUseEffect setOff={setActiveUE}></CUseEffect>) }
-        { !activeUE && ( <button onClick={ ()=>{ setActiveUE(true) } }>Mount UseEffect Component</button> ) }
-        <br />
-        <CUseCallback></CUseCallback>
+        
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={ <b>WELCOME</b> }/>
+            <Route path="/login" element={ <Login /> }/>
+            <Route path="/options" element={<Options theme={theme} setTheme={changeTheme} />}/>
+              <Route path="/options/:id" element={ <Option /> } />
+            <Route path="/main" 
+            element={<>
+              <div>Test ENV val:</div>
+              <div>{backendUrl}</div>
+              <br />
+              <br />
+              <Card val={"Hello"} dec={ JSON.stringify(serverResp) } func={ loadInfo }></Card>
+            </>} />
+            <Route path="/actives"
+            element={<>
+              <br />
+              { activeUE && (<CUseEffect setOff={setActiveUE}></CUseEffect>) }
+              { !activeUE && ( <button onClick={ ()=>{ setActiveUE(true) } }>Mount UseEffect Component</button> ) }
+              <br />
+              <CUseCallback></CUseCallback>
+            </>} />
+          </Routes>
+        </BrowserRouter>
+
       </div>
     </UserContext.Provider>
   );

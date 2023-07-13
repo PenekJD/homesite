@@ -1,4 +1,6 @@
 /* Common app styles */
+a { text-decoration: none; }
+
 .App {
   min-height:100vh;
   text-align: center;
@@ -11,6 +13,70 @@
   color:#eee;
 }
 
+/* Header */
+.appHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom:10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
+  background-color:#eee;
+}
+.dark .appHeader {
+  background-color:#222;
+}
+
+/* Main menu */
+nav.main-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+nav.main-menu > a {
+  transition: 0.3s;
+  padding:10px;
+  cursor: pointer;
+  color:#333;
+}
+.dark nav.main-menu > a {
+  color:#eee;
+}
+
+nav.main-menu > a:hover {
+  color: #900;
+}
+.dark nav.main-menu > a:hover {
+  color: #f90;
+}
+
+nav.main-menu > a.active {
+  font-weight:bold;
+  color:#300;
+}
+.dark nav.main-menu > a.active {
+  color:#fff;
+}
+
+.logIn {
+  display:flex;
+  align-items: center;
+  padding: 10px;
+}
+.logIn > a {
+  transition: 0.3s;
+  font-weight: bold;
+  font-size: 12px;
+  color:#000;
+}
+.logIn > a:hover {
+  color:rgb(55, 78, 192);
+}
+.dark .logIn > a { color:#fff; }
+.dark .logIn > a:hover { color:#f90; }
+
+/* Details */
 .code-area {
   padding: 20px;
   margin-left: 10px;
