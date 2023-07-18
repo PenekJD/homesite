@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Post, Body, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Header, Post, Body, Delete, Param, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 
@@ -37,6 +37,18 @@ export class ProductController {
   @Header("Access-Control-Allow-Origin", "*")
   async createProduct( @Body() product: CreateProductDto ): Promise<string> {
     let getData = await this.productService.create(product);
+    return createResponse(getData);
+  }
+
+  @Put(':id')
+  @Header("Content-Type", "application/json")
+  @Header("Access-Control-Allow-Origin", "*")
+  async updateById( 
+    @Param('id') id: string, 
+    @Body() product: CreateProductDto
+  ): Promise<string> {
+    let getData = await this.productService.updateProduct(id, product);
+    console.log(getData);
     return createResponse(getData);
   }
 

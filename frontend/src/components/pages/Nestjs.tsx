@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import styles from './Nestjs.module.css';
 
 const envUrl: string = process.env.REACT_APP_HOST_SERVER || 'http://localhost:8888';
 
@@ -7,7 +8,7 @@ export function Nestjs() {
   const [form, setForm] = useState({
     title: "title",
     desc: "",
-    ser: (new Date()).getTime() + '' + (Math.random()*(999-100)*100)
+    ser: ((new Date()).getTime() + '' + (Math.random()*(999-100)+100)).replace('.', '')
   });
   //Request values
   const [url, setUrl] = useState(envUrl);
@@ -15,9 +16,13 @@ export function Nestjs() {
   const [njsData, setNjsData] = useState('');
 
   function getData(fetchObj:any, isNum?: boolean | undefined) {
-    console.log(fetchObj)
     fetch( `${url}`, fetchObj )
-      .then( resp => resp.json() )
+      .then( resp => {
+        if (resp.ok) {
+          return resp.json();
+        }
+        throw new Error("No data");     
+      } )
       .then( data => { setNjsData(data.main) } )
       .catch( err => {
         console.error(err);
@@ -50,7 +55,7 @@ export function Nestjs() {
 
   return (
     <>
-      <div>
+      <div className={styles.requestLine}>
         Request: 
         <input type="text" value={url} onChange={ (e)=>{ setUrl(e.target.value) } }/>
         <select value={type} onChange={ (e)=>{ setType( e.target.value ) } }>
@@ -60,16 +65,18 @@ export function Nestjs() {
           <option value="PUT">PUT</option>
         </select>
       </div>
-      <div className={'app-form'}>
-        <label>Title</label>
-        <input value={form.title} 
-          onChange={ (e)=>{ formEditParam('title', e.target.value) } }
-        />
-        <label>Description</label>
-        <input value={form.desc} 
-          onChange={ (e)=>{ formEditParam('desc', e.target.value) } }
-        />
-      </div>
+      {(type === 'PUT' || type === 'POST') && (
+        <div className={'app-form'}>
+          <label>Title</label>
+          <input value={form.title} 
+            onChange={ (e)=>{ formEditParam('title', e.target.value) } }
+          />
+          <label>Description</label>
+          <input value={form.desc} 
+            onChange={ (e)=>{ formEditParam('desc', e.target.value) } }
+          />
+        </div>
+      )}
       <div>
         <button onClick={submitButton}>Submit</button>
       </div>
