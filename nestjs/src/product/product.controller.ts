@@ -1,6 +1,7 @@
-import { Controller, Get, Header, Post, Body, Delete, Param, Put } from '@nestjs/common';
+import { Controller, Get, Header, Post, Body, Delete, Param, Put, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 
 const createResponse: (data:any) => string = (data:any) => {
@@ -17,32 +18,24 @@ export class ProductController {
   constructor( private readonly productService: ProductService  ) {}
 
   @Get()
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
-  async getAll(): Promise<string> {
-    let getData = await this.productService.findAll();
+  async getAll( @Query() query: ExpressQuery ): Promise<string> {
+    let getData = await this.productService.findAll(query);
     return createResponse(getData);
   }
 
   @Get(':id')
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
   async findById( @Param('id') id:string ) {
     let getData = await this.productService.findById(id);
     return createResponse(getData);
   }
 
   @Post()
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
   async createProduct( @Body() product: CreateProductDto ): Promise<string> {
     let getData = await this.productService.create(product);
     return createResponse(getData);
   }
 
   @Put(':id')
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
   async updateById( 
     @Param('id') id: string, 
     @Body() product: CreateProductDto
@@ -53,8 +46,6 @@ export class ProductController {
   }
 
   @Delete()
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
   async deleteAll() {
     let getData = await this.productService.deleteAll();
     return createResponse(getData);

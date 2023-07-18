@@ -6,8 +6,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  @Header("Content-Type", "application/json")
-  @Header("Access-Control-Allow-Origin", "*")
+  // @Header("Content-Type", "application/json")
+  // @Header("Access-Control-Allow-Origin", "*")
   getHello(): string {
     return this.appService.getHello();
   }
