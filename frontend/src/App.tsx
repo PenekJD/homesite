@@ -12,6 +12,7 @@ import Header from './components/Header';
 import Options from './components/pages/Options';
 import Option from './components/pages/Option';
 import Login from './components/pages/Login';
+import { Nestjs } from './components/pages/Nestjs';
 
 
 
@@ -82,6 +83,7 @@ function App() {
               <br />
               <CUseCallback></CUseCallback>
             </>} />
+            <Route path='/nestjs' element={<Nestjs />}/>
           </Routes>
         </BrowserRouter>
 

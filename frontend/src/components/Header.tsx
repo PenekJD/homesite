@@ -11,6 +11,7 @@ export default function Header() {
         <NavLink to="./main" >Main</NavLink>
         <NavLink to="./actives">Actives</NavLink>
         <NavLink to="./options">Options</NavLink>
+        <NavLink to="./nestjs">NestJS</NavLink>
       </nav>
       <div className="logIn">
         <NavLink to="./login">Log in</NavLink>

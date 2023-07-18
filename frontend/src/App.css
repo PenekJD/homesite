@@ -76,6 +76,40 @@ nav.main-menu > a.active {
 .dark .logIn > a { color:#fff; }
 .dark .logIn > a:hover { color:#f90; }
 
+/* Custom Form styles */
+.app-form {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  padding: 20px 10px;
+  margin: 10px;
+
+  background-color: #eee;
+  border-left: 8px solid rgb(77, 182, 123);
+}
+.app-form > label {
+  display: flex;
+  padding-right: 10px;
+  justify-content: right;
+  align-items: center;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  
+  color: #333;
+}
+.dark .app-form {
+  background-color: #444;
+  color:#fff;
+}
+.dark .app-form > label {
+  color: #fff;
+}
+.dark .app-form > input {
+  color: #fff;
+  background-color: #222;
+  border: none;
+}
+
 /* Details */
 .code-area {
   padding: 20px;
