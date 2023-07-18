@@ -13,14 +13,24 @@ export class ProductService {
   ){}
 
   async findAll(query: Query): Promise<Product[]> {
+
+    const perPage = 2;
+    const curPage = Number(query.p) || 1;
+    const skip = perPage*(curPage-1);
+
     const search = query.search ? {
       title: {
         $regex: query.search,
         $options: 'i'
       }
     } : {};
-    const products = await this.productModel.find({...search});
+
+    const products = await this.productModel
+      .find({...search})
+      .limit(perPage)
+      .skip(skip);
     return products;
+    
   }
 
   async create(product: Product): Promise<Product> {

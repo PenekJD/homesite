@@ -3,6 +3,12 @@ import styles from './Nestjs.module.css';
 
 const envUrl: string = process.env.REACT_APP_HOST_SERVER || 'http://localhost:8888';
 
+interface IProduct {
+  title: string,
+  desk: string,
+  ser: number
+}
+
 export function Nestjs() {
   //Main send-form
   const [form, setForm] = useState({
@@ -14,6 +20,7 @@ export function Nestjs() {
   const [url, setUrl] = useState(envUrl);
   const [type, setType] = useState('GET');
   const [njsData, setNjsData] = useState('');
+  const [arrData, setArrData] = useState([]);
 
   function getData(fetchObj:any, isNum?: boolean | undefined) {
     fetch( `${url}`, fetchObj )
@@ -23,7 +30,16 @@ export function Nestjs() {
         }
         throw new Error("No data");     
       } )
-      .then( data => { setNjsData(data.main) } )
+      .then( data => { 
+        setNjsData(data.main);
+        if ( url.split('/').length > 3 ) {
+          setArrData( 
+            data.main[0] === '[' ?
+            JSON.parse(data.main) :
+            [JSON.parse(data.main)]
+          );
+        }
+      } )
       .catch( err => {
         console.error(err);
       } );
@@ -80,7 +96,12 @@ export function Nestjs() {
       <div>
         <button onClick={submitButton}>Submit</button>
       </div>
-      <div className={'code-area'}>{njsData}</div>
+      <div className={'code-area'}>
+        { !arrData.length && njsData }
+        { arrData.map( (el:IProduct) => {
+          return <div key={el.ser}><span>{el.title}</span></div>
+        } ) }
+      </div>
     </>
   )
 }
