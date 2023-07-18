@@ -14,15 +14,29 @@ export class ProductService {
 
   async findAll(query: Query): Promise<Product[]> {
 
+    //We recive values by query: p and search
+    // p - current page
+    // search - search by title
+
     const perPage = 2;
     const curPage = Number(query.p) || 1;
     const skip = perPage*(curPage-1);
 
     const search = query.search ? {
-      title: {
-        $regex: query.search,
-        $options: 'i'
-      }
+      $or: [
+        {
+          title: {
+            $regex: query.search,
+            $options: 'i'
+          }
+        },
+        {
+          desc: {
+            $regex: query.search,
+            $options: 'i'
+          }
+        }
+      ]
     } : {};
 
     const products = await this.productModel
@@ -30,7 +44,7 @@ export class ProductService {
       .limit(perPage)
       .skip(skip);
     return products;
-    
+
   }
 
   async create(product: Product): Promise<Product> {

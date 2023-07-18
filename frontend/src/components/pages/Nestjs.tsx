@@ -5,7 +5,7 @@ const envUrl: string = process.env.REACT_APP_HOST_SERVER || 'http://localhost:88
 
 interface IProduct {
   title: string,
-  desk: string,
+  desc: string,
   ser: number
 }
 
@@ -99,7 +99,12 @@ export function Nestjs() {
       <div className={'code-area'}>
         { !arrData.length && njsData }
         { arrData.map( (el:IProduct) => {
-          return <div key={el.ser}><span>{el.title}</span></div>
+          return (
+            <div key={el.ser}>
+              <h1>{el.title}</h1>
+              <div>{el.desc}</div>
+            </div>
+          )
         } ) }
       </div>
     </>
