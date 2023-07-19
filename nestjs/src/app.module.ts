@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './product/product.module';
 
-let MongoDbUri: string = process.env.MONGODB_URI || '';
+const MongoDbUri: string = process.env.MONGODB_URI || '';
 
 @Module({
   imports: [
