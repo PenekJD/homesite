@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  # REACT APPLICATION
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      - REACT_APP_HOST_SERVER=http://localhost:8888
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+
+  # NEST APPLICATION
+  backend:
+    container_name: nestjs
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.dev
+    environment:
+      - MONGODB_URI=mongodb://mongo_db:27017
+      - FRONTEND_URI=http://localhost:3000
+      - DB_NAME=my_db
+      - JWT_SECRET=penekjd
+      - JWT_EXPIRE=3d
+    volumes:
+      - /app/node_modules
+      - ./nestjs:/app
+    restart: always
+    ports:
+      - '8888:8000'
+    depends_on:
+      - mongo_db
+
+  # MONGO DB
+  mongo_db:
+    container_name: mongo_db
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+# important params for DB
+# it will help to save db data to local machine 
+volumes: 
+  mongo_db: {}
+
