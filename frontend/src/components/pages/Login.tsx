@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
+import IUser from "../../interfaces/IUser";
 
 const envUrl: string = process.env.REACT_APP_HOST_SERVER || 'http://localhost:8888';
 
-const Login = () => {
+interface IProps {
+  setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  user: IUser
+}
+
+const Login = ({setUser, user}: IProps) => {
 
   let fetching: boolean = true;
   const [form, setForm] = useState({

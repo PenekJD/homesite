@@ -3,8 +3,8 @@ import IUserContext from "../interfaces/IUserContext";
 
 const UserContext = createContext<IUserContext>({
   user: {
-    fullname: "",
-    lastname: ""
+    name: "",
+    isLoggedIn: false
   },
   setUser: ()=>{}
 });

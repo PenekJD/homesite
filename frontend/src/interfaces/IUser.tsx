@@ -1,4 +1,4 @@
 export default interface IUser {
-  fullname:string,
-  lastname:string
+  name:string,
+  isLoggedIn:boolean
 }

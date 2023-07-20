@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 export default function Header() {
+
+  const userContext = useContext(UserContext);
 
   //NavLink has cool feature as adding active-class name for link (it's simplify fast style creation of menu)
 
@@ -12,7 +16,9 @@ export default function Header() {
         <NavLink to="./options">Options</NavLink>
       </nav>
       <div className="logIn">
-        <NavLink to="./login">Log in</NavLink>
+        { !userContext.user.isLoggedIn && 
+          (<NavLink to="./login">Log in</NavLink>) 
+        }
       </div>
     </div>
   )
