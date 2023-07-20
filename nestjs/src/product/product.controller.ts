@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Post, Body, Delete, Param, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Put, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';

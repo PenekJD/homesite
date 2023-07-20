@@ -21,6 +21,7 @@ export function Nestjs() {
   const [type, setType] = useState('GET');
   const [njsData, setNjsData] = useState('');
   const [arrData, setArrData] = useState([]);
+  let fetching: boolean = true;
 
   function getData(fetchObj:any, isNum?: boolean | undefined) {
     fetch( `${url}`, fetchObj )
@@ -31,13 +32,16 @@ export function Nestjs() {
         throw new Error("No data");     
       } )
       .then( data => { 
-        setNjsData(data.main);
-        if ( url.split('/').length > 3 ) {
-          setArrData( 
-            data.main[0] === '[' ?
-            JSON.parse(data.main) :
-            [JSON.parse(data.main)]
-          );
+        if (fetching) {
+          console.log("Fetched results")
+          setNjsData(data.main);
+          if ( url.split('/').length > 3 ) {
+            setArrData( 
+              data.main[0] === '[' ?
+              JSON.parse(data.main) :
+              [JSON.parse(data.main)]
+            );
+          }
         }
       } )
       .catch( err => {
@@ -47,6 +51,7 @@ export function Nestjs() {
 
   useEffect( () => {
     getData({ method: type });
+    return () => { fetching = false; }
   }, [] );
 
   function formEditParam(prm:string, val:string):void {

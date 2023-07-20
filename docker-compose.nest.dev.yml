@@ -29,6 +29,8 @@ services:
       - MONGODB_URI=mongodb://mongo_db:27017
       - FRONTEND_URI=http://localhost:3000
       - DB_NAME=my_db
+      - JWT_SECRET=penekjd
+      - JWT_EXPIRE=3d
     volumes:
       - /app/node_modules
       - ./nestjs:/app
