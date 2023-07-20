@@ -8,10 +8,8 @@ export default function Header() {
     <div className="appHeader">
       <nav className="main-menu">
         <NavLink to="">:3</NavLink>
-        <NavLink to="./main" >Main</NavLink>
-        <NavLink to="./actives">Actives</NavLink>
-        <NavLink to="./options">Options</NavLink>
         <NavLink to="./nestjs">NestJS</NavLink>
+        <NavLink to="./options">Options</NavLink>
       </nav>
       <div className="logIn">
         <NavLink to="./login">Log in</NavLink>

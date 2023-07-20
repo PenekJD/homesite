@@ -17,9 +17,6 @@ import { Nestjs } from './components/pages/Nestjs';
 
 
 function App() {
-
-  let backendUrl: string = process.env.REACT_APP_HOST_SERVER+'';
-  let [serverResp, setServerResp] = useState([]);
   //THEME params
   let [theme, setTheme] = useState('light');
   //USER params
@@ -27,25 +24,10 @@ function App() {
   [IUser, React.Dispatch<React.SetStateAction<IUser>>]
   = useState({fullname: "Guest", lastname:""});
 
-  //for UseEffect COmponent
-  let [activeUE, setActiveUE]:
-  [boolean, React.Dispatch<React.SetStateAction<boolean>>] 
-  = useState(true);
-
-
-  //Connect to backend
-  function loadInfo(): void {
-    fetch(backendUrl)
-    .then( resp => resp.json() )
-    .then( data => { setServerResp(data) } )
-  }
-
-
   function changeTheme(sTheme:string): void {
     localStorage.setItem('theme', sTheme);
     setTheme(sTheme);
   }
-
 
   useEffect( () => {
     let checkSavedTheme: string = localStorage.getItem('theme')+'';
@@ -53,8 +35,6 @@ function App() {
       setTheme(checkSavedTheme);
     }
   }, [] );
-
-  
 
   return (
     <UserContext.Provider value={ { user, setUser } }>
@@ -67,22 +47,6 @@ function App() {
             <Route path="/login" element={ <Login /> }/>
             <Route path="/options" element={<Options theme={theme} setTheme={changeTheme} />}/>
               <Route path="/options/:id" element={ <Option /> } />
-            <Route path="/main" 
-            element={<>
-              <div>Test ENV val:</div>
-              <div>{backendUrl}</div>
-              <br />
-              <br />
-              <Card val={"Hello"} dec={ JSON.stringify(serverResp) } func={ loadInfo }></Card>
-            </>} />
-            <Route path="/actives"
-            element={<>
-              <br />
-              { activeUE && (<CUseEffect setOff={setActiveUE}></CUseEffect>) }
-              { !activeUE && ( <button onClick={ ()=>{ setActiveUE(true) } }>Mount UseEffect Component</button> ) }
-              <br />
-              <CUseCallback></CUseCallback>
-            </>} />
             <Route path='/nestjs' element={<Nestjs />}/>
           </Routes>
         </BrowserRouter>

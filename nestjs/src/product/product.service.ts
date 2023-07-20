@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schema';
 import * as mongoose from 'mongoose';
 import { Query } from 'express-serve-static-core';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class ProductService {
@@ -18,7 +19,7 @@ export class ProductService {
     // p - current page
     // search - search by title
 
-    const perPage = 2;
+    const perPage = 10;
     const curPage = Number(query.p) || 1;
     const skip = perPage*(curPage-1);
 
@@ -42,13 +43,15 @@ export class ProductService {
     const products = await this.productModel
       .find({...search})
       .limit(perPage)
-      .skip(skip);
+      .skip(skip)
+      .sort({"createdAt":-1});
     return products;
 
   }
 
-  async create(product: Product): Promise<Product> {
-    const feedback = await this.productModel.create(product);
+  async create(product: Product, user: User): Promise<Product> {
+    const productToDb = Object.assign(product, { user: user._id });
+    const feedback = await this.productModel.create(productToDb);
     return feedback;
   }
 

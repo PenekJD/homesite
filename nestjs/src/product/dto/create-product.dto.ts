@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { User } from "src/auth/schemas/user.schema";
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -12,6 +13,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsNumber()
   readonly ser: number
+
+  @IsEmpty({ message: "You can't pass user id" })
+  readonly user: User
 
   //Also you can use IsEnum if you want recive complex data as object
   //EXAMPLE:

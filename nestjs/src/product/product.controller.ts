@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Put, Query, UseGuards, Req } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Query as ExpressQuery } from 'express-serve-static-core';
@@ -32,8 +32,11 @@ export class ProductController {
 
   @Post()
   @UseGuards(AuthGuard()) //Проверка на авторизацию
-  async createProduct( @Body() product: CreateProductDto ): Promise<string> {
-    let getData = await this.productService.create(product);
+  async createProduct( 
+    @Body() product: CreateProductDto,
+    @Req() req,
+  ): Promise<string> {
+    let getData = await this.productService.create(product, req.user);
     return createResponse(getData);
   }
 
