@@ -10,11 +10,12 @@ interface IProduct {
 }
 
 export function Nestjs() {
+  const uToken = localStorage.getItem("u_token");
   //Main send-form
   const [form, setForm] = useState({
     title: "title",
     desc: "",
-    ser: ((new Date()).getTime() + '' + (Math.random()*(999-100)+100)).replace('.', '')
+    ser: parseInt(((new Date()).getTime() + '' + (Math.random()*(999-100)+100)).replace('.', ''))
   });
   //Request values
   const [url, setUrl] = useState(envUrl);
@@ -24,7 +25,14 @@ export function Nestjs() {
   let fetching: boolean = true;
 
   function getData(fetchObj:any, isNum?: boolean | undefined) {
-    fetch( `${url}`, fetchObj )
+    fetch( `${url}`,
+      {
+        ...fetchObj,
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${uToken}`,
+        },
+      } )
       .then( resp => {
         if (resp.ok) {
           return resp.json();
@@ -65,7 +73,6 @@ export function Nestjs() {
       type==='POST' ? 
       {
         method: type,
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       } : 
       {

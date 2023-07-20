@@ -20,6 +20,7 @@ const Login = () => {
     .then( json => {
       if (fetching) {
         setData( (obj) => { return {...obj, ...json}} );
+        localStorage.setItem("u_token", json.token);
       }
     })
     .catch( err => {});
