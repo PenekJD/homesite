@@ -1,0 +1,13 @@
+.codeBlock {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.codeBlock > h3 {
+  margin: 10px 5px 5px;
+  font-size: 14px;
+}
+.codeBlock > textarea {
+  font-size: 8px;
+  height: 400px;
+}

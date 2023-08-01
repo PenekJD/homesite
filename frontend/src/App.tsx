@@ -24,11 +24,14 @@ function App() {
   }
 
   function checkAuth() {
-
+    const checkKey: string = localStorage.getItem('u_token')+'';
+    if (checkKey && checkKey !== 'null' && checkKey !== 'undefined') {
+      
+    }
   }
 
   function checkTheme() {
-    let checkSavedTheme: string = localStorage.getItem('theme')+'';
+    const checkSavedTheme: string = localStorage.getItem('theme')+'';
     if ( checkSavedTheme !== 'null' ) {
       setTheme(checkSavedTheme);
     }

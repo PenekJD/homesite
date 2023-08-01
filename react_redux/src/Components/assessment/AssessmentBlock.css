@@ -1,0 +1,51 @@
+.assessmentBlock {
+  position: relative;
+  margin: 10px;
+  padding: 40px 10px;
+  background-color:#fff;
+  text-align: left;
+}
+
+.abHead {
+  position: absolute;
+  top: 0px; left:0px; right:0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:#fc0;
+  color:#fff;
+  font-weight: bold;
+  font-size: 18px;
+  padding:10px;
+  text-shadow: 1px 1px 0px #000;
+}
+.abHead > div {
+  font-size: 12px;
+}
+
+.assessmentBlock > form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.assessmentBlock input {
+  font-size: 14px;
+  font-weight:bold;
+}
+
+.comparisonBlock {
+  background-color:#eee;
+  padding: 10px;
+  font-weight: bold;
+  margin-top:10px;
+}
+.comparisonBlock > div {
+  display: flex;
+  gap: 6px;
+}
+
+.startsFrom {
+  width: 50px;
+  margin: 0px 10px 0px 5px;
+}
